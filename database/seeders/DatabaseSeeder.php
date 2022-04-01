@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(TipoDocumentoSeeder::class);
+        $this->call(UserSeeder::class);
         User::factory(1000)->create();
     }
 }

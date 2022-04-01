@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -13,7 +14,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users.user');
+        $users = User::join('tipodocumento', 'tipodocumento.id', '=', 'users.fkTipoDocumento')
+            ->select('tipodocumento.tipoDocumento', 'users.*')->paginate(10);
+
+        return view('users.user', compact('users'));
     }
 
     /**
