@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header"><b>Formulario de inicio de sesion</b></div>
                     <div class="card-body">
-                        <form action="" method="POST">
+                        <form action="login" method="POST">
                             @csrf
                             <div class="form-floating mb-4">
                                 <input type="email" name="correo" placeholder="Correo electronico" class="form-control">
@@ -18,7 +18,7 @@
                                 <label for="">Contraseña</label>
                             </div>
                             <div class="d-grid">
-                                <button class="btn btn-outline-primary">Iniciar sesion</button>
+                                <button type="submit" class="btn btn-outline-primary">Iniciar sesion</button>
                             </div>
                         </form>
                     </div>
