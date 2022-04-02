@@ -189,18 +189,14 @@ class UserController extends Controller
             $user->numeroDocumento = $request->documento;
             $user->email = $request->correo;
 
-            $fkDocumento = '';
-            $documentoValidate = '';
             $usuario = User::where([
                 ['numeroDocumento', '=', $request->documento],
-                ['id', '!=', $request->id]
+                ['id', '!=', $request->id],
+                ['fkTipoDocumento', '=', $request->fkTipoDocumento]
             ])->get();
-            foreach ($usuario as  $item) {
-                $fkDocumento = $item['fkTipoDocumento'];
-                $documentoValidate = $item['numeroDocumento'];
-            }
 
-            if ($fkDocumento === (int)$request->fkTipoDocumento && $documentoValidate === $request->documento) {
+
+            if (count($usuario) >= 1) {
                 return  $modal->modalAlerta("text-warning", "Modal Actualizar usuario", "Este documento ya esta registrado");
             }
 
