@@ -52,14 +52,17 @@ class UserController extends Controller
 
         $fkDocumento = '';
         $documento = '';
-        $usuario = User::where('numeroDocumento', $request->numeroDocumento)->get();
+        $usuario = User::join('tipodocumento', 'tipodocumento.id', '=', 'users.fkTipoDocumento')
+            ->select('tipodocumento.tipoDocumento', 'users.*')
+            ->where('numeroDocumento', $request->numeroDocumento)->get();
         foreach ($usuario as  $item) {
             $fkDocumento = $item['fkTipoDocumento'];
             $documento = $item['numeroDocumento'];
+            $tipoDocumento = $item['tipoDocumento'];
         }
 
         if ($fkDocumento === (int)$request->fkTipoDocumento && $documento === $request->numeroDocumento) {
-            return redirect()->back()->with('message', 'Este usuario ya se encuentra registrado en el sistema');
+            return redirect()->back()->with('message', $tipoDocumento . ' con numero: ' . $documento . ', no se puede registrar. Ya hay un regitro en el sistema.');
         }
 
         if ($user->save()) {
@@ -188,7 +191,10 @@ class UserController extends Controller
 
             $fkDocumento = '';
             $documentoValidate = '';
-            $usuario = User::where('numeroDocumento', $request->documento)->get();
+            $usuario = User::where([
+                ['numeroDocumento', '=', $request->documento],
+                ['id', '!=', $request->id]
+            ])->get();
             foreach ($usuario as  $item) {
                 $fkDocumento = $item['fkTipoDocumento'];
                 $documentoValidate = $item['numeroDocumento'];
