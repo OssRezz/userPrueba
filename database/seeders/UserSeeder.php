@@ -17,14 +17,14 @@ class UserSeeder extends Seeder
     {
         $user = new User();
 
-        $user->primerNombre = 'James';
+        $user->primerNombre = 'Administrador';
         $user->segundoNombre = null;
-        $user->primerApellido = 'Osorio';
-        $user->segundoApellido = 'Florez';
+        $user->primerApellido = 'Nivel';
+        $user->segundoApellido = 'God';
         $user->fkTipoDocumento = 1;
         $user->numeroDocumento = 1036957215;
-        $user->email = 'OssRezz.13@gmail.com';
-        $user->password = '$2a$12$n8DFuRU4BrU8bls6AAcsfua0qkEijpThCdPv2rjmQyJsCV3hDv50a';
+        $user->email = 'admin@admin.com';
+        $user->password = '$2a$12$n8DFuRU4BrU8bls6AAcsfua0qkEijpThCdPv2rjmQyJsCV3hDv50a'; //Password: 1234
 
         $user->save();
     }
