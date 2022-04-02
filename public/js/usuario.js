@@ -19,14 +19,14 @@ $(function () {
                     $("#respuesta").html(result);
                 },
             });
-        } else if (e.target.id === "btn-editar-usuario") {
+        } else if (e.target.id === "btn-actualizar-usuario") {
             const id = e.target.value;
             const primerNombre = $('#primerNombreUpdate').val();
             const segundoNombre = $('#segundoNombreUpdate').val();
             const primerApellido = $('#primerApellidoUpdate').val();
             const segundoApellido = $('#segundoApellidoUpdate').val();
-            const fkTipoDocumento = $('#fkTipoDocumentoUpdate').val();
-            const documento = $(' documentoUpdate').val();
+            const fkTipoDocumento = $('#tipoDocumentoUpdate').val();
+            const documento = $('#documentoUpdate').val();
             const correo = $('#correoUpdate').val();
 
             $.ajax({

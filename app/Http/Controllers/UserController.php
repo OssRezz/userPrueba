@@ -147,7 +147,7 @@ class UserController extends Controller
         $contenidoModal .= "                    </div>";
         //
         $contenidoModal .= "                <div class='d-grid'>";
-        $contenidoModal .= "                <button class='btn btn-outline-primary' id='btn-ingresar-empresa'>Actualizar usuario</button>";
+        $contenidoModal .= "                <button value=' $request->id' class='btn btn-outline-primary' id='btn-actualizar-usuario'>Actualizar usuario</button>";
         $contenidoModal .= "                </div>";
         //
         $contenidoModal .= "                  </div>";
@@ -164,13 +164,50 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user, Modal $modal)
     {
-        //
+        if (
+            empty($request->primerNombre) != 1 && empty($request->primerApellido) != 1 &&
+            empty($request->segundoApellido) != 1 && empty($request->documento) != 1 &&
+            empty($request->correo) != 1
+        ) {
+
+            $segundoNombre = $request->segundoNombre;
+            if ($request->primerNombre === null) {
+                $segundoNombre = null;
+            }
+
+            $user = User::find($request->id);
+            $user->primerNombre = $request->primerNombre;
+            $user->segundoNombre = $segundoNombre;
+            $user->primerApellido = $request->primerApellido;
+            $user->segundoApellido = $request->segundoApellido;
+            $user->fkTipoDocumento = $request->fkTipoDocumento;
+            $user->numeroDocumento = $request->documento;
+            $user->email = $request->correo;
+
+            $fkDocumento = '';
+            $documentoValidate = '';
+            $usuario = User::where('numeroDocumento', $request->documento)->get();
+            foreach ($usuario as  $item) {
+                $fkDocumento = $item['fkTipoDocumento'];
+                $documentoValidate = $item['numeroDocumento'];
+            }
+
+            if ($fkDocumento === (int)$request->fkTipoDocumento && $documentoValidate === $request->documento) {
+                return  $modal->modalAlerta("text-warning", "Modal Actualizar usuario", "Este documento ya esta registrado");
+            }
+
+            if ($user->update()) {
+                return  $modal->modalAlerta("text-primary", "Modal Actualizar usuario", "Usuario actualizado");
+            }
+        } else {
+            return  $modal->modalAlerta("text-warning", "Modal Actualizar usuario", "Todos los campos son requeridos");
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specidied resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
