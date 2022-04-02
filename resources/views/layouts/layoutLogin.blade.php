@@ -31,18 +31,6 @@
 </head>
 
 <body class="bg-light">
-    <nav class="navbar navbar-white shadow-sm bg-white">
-        <div class="container-fluid">
-            <a class="navbar-brand text-danger">IDCORP</a>
-            <form action="login/logout" method="POST">
-                @csrf
-                <button class="btn btn-outline-primary" href="#" onclick="this.closest('form').submit()"
-                    id="btn-salir">Cerrar
-                    sesion <i class="fas fa-sign-out-alt"></i></button>
-            </form>
-        </div>
-    </nav>
-
     @yield('content')
 
 

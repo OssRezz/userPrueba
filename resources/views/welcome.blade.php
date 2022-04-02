@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.layoutLogin')
 @section('title', 'Login')
 @section('content')
     <div class="container-fluid py-5 my-5">

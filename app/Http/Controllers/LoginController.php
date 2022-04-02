@@ -34,4 +34,13 @@ class LoginController extends Controller
             return redirect()->back()->with('message', 'Las crendenciales son incorrectas');
         }
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->to('/')->with('message', 'La sesion se ha cerrado con exito!');
+    }
 }
