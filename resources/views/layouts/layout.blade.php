@@ -42,7 +42,7 @@
             </form>
         </div>
     </nav>
-
+    <div id="respuesta"></div>
     @yield('content')
 
 

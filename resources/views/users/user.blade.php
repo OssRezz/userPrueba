@@ -119,8 +119,9 @@
                                             <td>{{ $item->numeroDocumento }}</td>
                                             <td>{{ $item->email }}</td>
                                             <td class="text-center">
-                                                <button class="btn btn-outline-primary btn-sm"><i
-                                                        class="fas fa-edit"></i></button>
+                                                <button value="{{ $item->id }}" id="btn-editar-usuario"
+                                                    class="btn btn-outline-primary btn-sm"><i class="fas fa-edit"
+                                                        style="pointer-events: none;"></i></button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -137,4 +138,5 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('js/usuario.js') }}"></script>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Modal;
 use App\Models\tipodocumento;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -66,27 +67,95 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(Modal $modal, Request $request)
     {
+        $usuario = User::join('tipodocumento', 'tipodocumento.id', '=', 'users.fkTipoDocumento')
+            ->select('tipodocumento.tipoDocumento', 'users.*')
+            ->where('users.id', $request->id)->get();
+        foreach ($usuario as $item) {
+            $primerNombre = $item['primerNombre'];
+            $segundoNombre = $item['segundoNombre'];
+            $primerApellido = $item['primerApellido'];
+            $segundoApellido = $item['segundoApellido'];
+            $fkTipoDocumento = $item['fkTipoDocumento'];
+            $tipoDocumentoName = $item['tipoDocumento'];
+            $numeroDocumento = $item['numeroDocumento'];
+            $email = $item['email'];
+        }
+
+        $tipoDocumentoLista = tipodocumento::all();
+
+        $contenidoModal = "                <div class='row g-3'>";
         //
+        $contenidoModal .= "                  <div class='col-12 col-lg-6'>";
+        $contenidoModal .= "                    <div class='form-floating'>";
+        $contenidoModal .= "                      <input  id='primerNombreUpdate' type='text' class='form-control' placeholder='Primer nombre' value='$primerNombre'>";
+        $contenidoModal .= "                      <label for=''>Primer nombre <b class='text-danger'>*</b></label>";
+        $contenidoModal .= "                    </div>";
+        $contenidoModal .= "                  </div>";
+        //
+        $contenidoModal .= "                  <div class='col-12 col-lg-6'>";
+        $contenidoModal .= "                    <div class='form-floating'>";
+        $contenidoModal .= "                      <input  id='segundoNombreUpdate' type='text' class='form-control' placeholder='Segundo nombre' value='$segundoNombre'>";
+        $contenidoModal .= "                      <label for=''>Segundo nombre</label>";
+        $contenidoModal .= "                    </div>";
+        $contenidoModal .= "                  </div>";
+        //
+        $contenidoModal .= "                  <div class='col-12 col-lg-6'>";
+        $contenidoModal .= "                    <div class='form-floating'>";
+        $contenidoModal .= "                      <input  id='primerApellidoUpdate' type='text' class='form-control' placeholder='Primer apellido' value='$primerApellido'>";
+        $contenidoModal .= "                      <label for=''>Primer apellido <b class='text-danger'>*</b></label>";
+        $contenidoModal .= "                    </div>";
+        $contenidoModal .= "                  </div>";
+        //
+        $contenidoModal .= "                  <div class='col-12 col-lg-6'>";
+        $contenidoModal .= "                    <div class='form-floating'>";
+        $contenidoModal .= "                      <input  id='segundoApellidoUpdate' type='text' class='form-control' placeholder='Segundo apellido' value='$segundoApellido'>";
+        $contenidoModal .= "                      <label for=''>Segundo apellido <b class='text-danger'>*</b></label>";
+        $contenidoModal .= "                    </div>";
+        $contenidoModal .= "                  </div>";
+        //
+        $contenidoModal .= "                  <div class='col-12 col-lg-6 '>";
+        $contenidoModal .= "                    <div class='form-floating'>";
+        $contenidoModal .= "                      <select id='tipoDocumentoUpdate' class='form-select' aria-placeholder='Tipo de documento'>";
+        $contenidoModal .= "                        <option value='$fkTipoDocumento' selected>$tipoDocumentoName</option>";
+
+        foreach ($tipoDocumentoLista as  $item) {
+            if ($item['id'] != $fkTipoDocumento) {
+                $contenidoModal .= "                        <option value='{$item['id']}'>{$item['tipoDocumento']}</option>";
+            }
+        }
+        $contenidoModal .= "                      </select>";
+        $contenidoModal .= "                      <label for=''>Tipo de documento <b class='text-danger'>*</b></label>";
+        $contenidoModal .= "                    </div>";
+        $contenidoModal .= "                    </div>";
+        //
+        $contenidoModal .= "                  <div class='col-12 col-lg-6'>";
+        $contenidoModal .= "                    <div class='form-floating'>";
+        $contenidoModal .= "                      <input  id='documentoUpdate' type='number' class='form-control' placeholder='Documento' value='$numeroDocumento'>";
+        $contenidoModal .= "                      <label for=''>Documento <b class='text-danger'>*</b></label>";
+        $contenidoModal .= "                    </div>";
+        $contenidoModal .= "                  </div>";
+        //
+        $contenidoModal .= "                  <div class='col-12 mb-3'>";
+        $contenidoModal .= "                    <div class='form-floating'>";
+        $contenidoModal .= "                      <input  id='correoUpdate' type='email' class='form-control' placeholder='Correo' value='$email'>";
+        $contenidoModal .= "                      <label for=''>Correo <b class='text-danger'>*</b></label>";
+        $contenidoModal .= "                    </div>";
+        $contenidoModal .= "                  </div>";
+        //
+        $contenidoModal .= "                    </div>";
+        //
+        $contenidoModal .= "                <div class='d-grid'>";
+        $contenidoModal .= "                <button class='btn btn-outline-primary' id='btn-ingresar-empresa'>Actualizar usuario</button>";
+        $contenidoModal .= "                </div>";
+        //
+        $contenidoModal .= "                  </div>";
+
+        $modal->modalInformativa("text-primary", "Modal Actualizar usuario", $contenidoModal);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
