@@ -48,7 +48,7 @@ class UserController extends Controller
         $user->fkTipoDocumento = $request->fkTipoDocumento;
         $user->numeroDocumento = $request->numeroDocumento;
         $user->email = $request->email;
-        $user->password =  Hash::make($request->primerNombre);
+        $user->password =  Hash::make($request->password);
 
         $fkDocumento = '';
         $documento = '';
